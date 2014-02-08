@@ -1,0 +1,63 @@
+/* Global Reset */
+* {
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  margin: 10px;
+}
+
+.ac-comp {
+  display: inline-block;
+}
+
+.main > * {
+  margin: 10px;
+}
+
+.ac-comp .ac-box {
+  position: relative;
+}
+
+.ac-menu {
+  position: absolute;
+  left: 0px;
+  right: 0px;
+  top: 25px;
+  z-index: 999;
+}
+
+.ac-comp input {
+  width: 460px;
+  padding: 5px;
+  font-size: 15px;
+  height: 30px;
+  box-sizing: border-box;
+  -moz-box-sizing: border-box;
+  -webkit-box-sizing: border-box;
+}
+
+.ac-comp ul {
+  list-style: none;
+  background-color: white;
+  margin: 0;
+  border-top: 1px solid #ccc;
+  border-left: 1px solid #ccc;
+  border-right: 1px solid #ccc;
+  box-sizing: border-box;
+  -moz-box-sizing: border-box;
+  -webkit-box-sizing: border-box;
+  box-shadow: 0px 4px 4px rgb(220,220,220);
+  user-select: none
+  -webkit-user-select: none;
+  -moz-user-select: none;
+}
+
+.ac-comp li {
+  cursor: pointer;
+  list-style: none;
+  padding: 3px 0 3px 8px;
+  margin: 0;
+  border-bottom: 1px solid #ccc;
+}
