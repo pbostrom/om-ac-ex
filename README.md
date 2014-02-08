@@ -1,18 +1,27 @@
-This repo is mainly just an exercise for me to learn the [Om library](https://github.com/swannodette/om). It's a quick attempt to implement an autocompleter input widget
-that contains a small subset of the functionality described by this post:
-http://swannodette.github.io/2013/08/17/comparative/
+This repo is mainly just an exercise for me to learn the [Om library](https://github.com/swannodette/om). It's a quick attempt to implement an autocompleter input widget that contains a small subset of the functionality described by this [post](http://swannodette.github.io/2013/08/17/comparative/).
+
+My example is hosted [here](http://cwo.io/om-ac-ex/ac.html).
+
+To build the example, run
+```
+lein cljsbuild auto om-ac-ex
+```
 
 The widget gets invoked as follows:
 ```clojure
 (ns om-ac-ex.app
-  (:require [om-ac-ex.widget :as widget])
+  (:require [om-ac-ex.widget :as widget]
 ...
 (om/build widget/ac-input app
   {:state {:sel-ch sel-ch
            :ac-fn #(search 10 utils/cc-vars %)}})
 ```
-`:ac-fn` specifies a function that takes a single argument (the value of the input field) and returns a vector of possible completions. The original autocompletion example I linked to above used an asynchronous process to populate the list of possible completions, but in my example I just update the list with whatever is returned from calling `:ac-fn`. Eventually, I would like to make this asynchronous to support fetching data from a remote server. For the purposes of this example I've just hard-coded the list of vars in clojure.core to use as the completion pool.
-Another feature missing is support for mouse events; my example is keyboard only for now.
+`sel-ch` is a core.async channel that returns the value selected by the user. In the example I just update some text in another part of my application as I take values off of the channel.
+
+`:ac-fn` specifies a function that takes a single argument (the value of the input field) and returns a vector of possible completions. The original autocompletion example I linked to above used an asynchronous process to populate the list of possible completions, but in my example I just update the list with whatever is returned from calling `:ac-fn`. 
+
+Eventually, I would like to make this asynchronous to support fetching data from a remote server. For the purposes of this example I've just hard-coded all the vars in clojure.core to use as the completion pool. Another feature missing is support for mouse events; my example is keyboard only for now.
+
 While going through this exercise I found myself wanting to use a swap!-like call on the component state, so I wrote this utility function, based on om.core/set-state!:
 ```clojure
 (defn swap-state!
