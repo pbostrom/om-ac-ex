@@ -57,6 +57,7 @@
       {:results []
        :sel-idx ::none
        :val ""
+       :md ::none
        :show-list false})
     om/IRenderState
     (render-state [this {:keys [results sel-idx show-list val sel-ch ac-fn] :as state}]
@@ -77,8 +78,23 @@
                                          (utils/swap-state! owner handle-ctrl-key k)
                                          (when (= (key->keyword k) :select)
                                            (put! sel-ch (om/get-state owner :val)))))
-                          :onBlur #(om/set-state! owner :show-list false)
+                          :onBlur #(om/set-state! owner :show-list true)
                           :value val})
           (apply dom/ul #js {:className "ac-menu"
                              :style (display show-list)}
-            (map-indexed (fn [i v] (dom/li #js {:style (highlight i sel-idx)} v)) results)))))))
+            (map-indexed
+             (fn [i v]
+               (dom/li #js {:style (highlight i sel-idx)
+                            :onMouseDown #(om/set-state! owner :md i)
+                            :onMouseUp (fn [_]
+                                         (if (= (om/get-state owner :md) i)
+                                           (do
+                                             (utils/swap-state! owner
+                                               (fn [s]
+                                                 (-> s
+                                                     (handle-ctrl-key ENTER)
+                                                     (assoc :md ::none))))
+                                             (put! sel-ch (om/get-state owner :val)))
+                                           (om/set-state! owner :md ::none)))
+                            :onMouseLeave #(om/set-state! owner :sel-idx ::none)
+                            :onMouseEnter #(om/set-state! owner :sel-idx i)} v)) results)))))))
