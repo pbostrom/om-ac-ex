@@ -20,7 +20,7 @@ The widget gets invoked as follows:
 
 `:ac-fn` specifies a function that takes a single argument (the value of the input field) and returns a vector of possible completions. The original autocompletion example I linked to above used an asynchronous process to populate the list of possible completions, but in my example I just update the list with whatever is returned from calling `:ac-fn`. 
 
-Eventually, I would like to make this asynchronous to support fetching data from a remote server. For the purposes of this example I've just hard-coded all the vars in clojure.core to use as the completion pool. Another feature missing is support for mouse events; my example is keyboard only for now.
+Eventually, I would like to make this asynchronous to support fetching data from a remote server. For the purposes of this example I've just hard-coded all the vars in clojure.core to use as the completion pool.
 
 While going through this exercise I found myself wanting to use a swap!-like call on the component state, so I wrote this utility function, based on om.core/set-state!:
 ```clojure
